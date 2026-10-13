@@ -1,0 +1,735 @@
+/*
+ * BarberSpot — estilos de componentes.
+ * Tailwind (CDN) cubre layout y tipografía; aquí va lo que Tailwind no resuelve
+ * bien: estados con :focus-within / :has, la franja diagonal, la casilla, el
+ * selector de rol, el botón primario y el reset base (el preflight está apagado).
+ */
+
+:root {
+  --bs-base: #121212;
+  --bs-surface: #1E1E1E;
+  --bs-field: #171717;
+  --bs-line: #2E2E2E;
+  --bs-line-strong: #3A3A3A;
+  --bs-ink: #F4F1EA;
+  --bs-muted: #A8A29A;
+  --bs-faint: #8A857D;
+  --bs-accent: #E8A33D;
+  --bs-accent-hover: #F2B658;
+  --bs-accent-press: #C98A28;
+  --bs-accent-ink: #141210;
+  --bs-error: #F0625A;
+
+  --bs-error-bg: rgba(240, 98, 90, 0.10);
+  --bs-error-border: rgba(240, 98, 90, 0.35);
+  --bs-ring: rgba(232, 163, 61, 0.20);
+  --bs-ring-error: rgba(240, 98, 90, 0.12);
+  --bs-ring-error-focus: rgba(240, 98, 90, 0.24);
+
+  --bs-font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --bs-font-sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --bs-font-mono: "IBM Plex Mono", Consolas, monospace;
+
+  --bs-t: 120ms ease;
+
+  color-scheme: dark;
+}
+
+/* ---------- Reset base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid var(--bs-line);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  background: var(--bs-base);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bs-base);
+  color: var(--bs-ink);
+  font-family: var(--bs-font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+  background: none;
+  letter-spacing: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+::selection {
+  background: rgba(232, 163, 61, 0.35);
+  color: var(--bs-ink);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bs-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bs-line-strong);
+  border: 3px solid var(--bs-base);
+  border-radius: 999px;
+}
+
+/* Íconos del sprite (js/ui.js): siempre trazo, nunca relleno. */
+.bs-i {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Página ---------- */
+
+.bs-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cuadrícula decorativa cada 48px, desvanecida hacia los bordes. */
+.bs-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(244, 241, 234, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(244, 241, 234, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center center;
+  -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 45%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 80%);
+  mask-image: radial-gradient(ellipse 65% 60% at 50% 45%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 80%);
+}
+
+/* Franja diagonal tipo poste de barbería: bandas de 10px a 45°. */
+.bs-stripe {
+  flex: none;
+  height: 8px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--bs-accent) 0 10px,
+    var(--bs-ink) 10px 20px,
+    var(--bs-surface) 20px 30px
+  );
+}
+
+.bs-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+/* ---------- Marca ---------- */
+
+.bs-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--bs-accent);
+  color: var(--bs-accent-ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.12),
+    0 10px 28px rgba(232, 163, 61, 0.18);
+}
+
+.bs-logo .bs-i {
+  width: 30px;
+  height: 30px;
+}
+
+.bs-logo--sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.bs-logo--sm .bs-i {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------- Tarjeta ---------- */
+
+.bs-card {
+  width: 100%;
+  background: var(--bs-surface);
+  border: 1px solid var(--bs-line);
+  border-radius: 16px;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(244, 241, 234, 0.04);
+}
+
+.bs-card--login {
+  max-width: 440px;
+  padding: 40px;
+}
+
+.bs-card--registro {
+  max-width: 600px;
+  padding: 36px 40px;
+}
+
+/* ---------- Layout de acceso ---------- */
+
+.bs-login {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.bs-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/*
+ * Ventanas bajas (p. ej. el mínimo de 1024×680): la pila vertical no cabe sin
+ * scroll, así que la marca pasa a la izquierda de la tarjeta.
+ */
+@media (max-height: 900px) and (min-width: 960px) {
+  .bs-main--login {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .bs-login {
+    flex-direction: row;
+    justify-content: center;
+    gap: 80px;
+  }
+
+  .bs-brand {
+    align-items: flex-start;
+    text-align: left;
+    max-width: 340px;
+  }
+
+  .bs-card--login {
+    padding: 32px 40px;
+  }
+}
+
+/* ---------- Selector de tipo de cuenta ---------- */
+
+.bs-roles {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bs-field);
+  border: 1px solid var(--bs-line);
+  border-radius: 10px;
+}
+
+.bs-role {
+  flex: 1;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--bs-muted);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  transition: background-color var(--bs-t), color var(--bs-t), opacity var(--bs-t);
+}
+
+.bs-role:hover:not([aria-selected="true"]):not(:disabled) {
+  background: #212121;
+  color: var(--bs-ink);
+}
+
+.bs-role[aria-selected="true"] {
+  background: var(--bs-accent);
+  color: var(--bs-accent-ink);
+}
+
+.bs-role:focus-visible {
+  outline: 2px solid var(--bs-accent);
+  outline-offset: 2px;
+}
+
+.bs-role:disabled {
+  cursor: not-allowed;
+}
+
+.bs-role:disabled:not([aria-selected="true"]) {
+  opacity: 0.6;
+}
+
+/* ---------- Campos ---------- */
+
+.bs-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.02em;
+  color: var(--bs-ink);
+}
+
+.bs-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  background: var(--bs-field);
+  border: 1px solid var(--bs-line);
+  border-radius: 10px;
+  transition: border-color var(--bs-t), box-shadow var(--bs-t), background-color var(--bs-t);
+}
+
+.bs-control:hover {
+  border-color: var(--bs-line-strong);
+}
+
+.bs-control:focus-within {
+  border-color: var(--bs-accent);
+  box-shadow: 0 0 0 3px var(--bs-ring);
+}
+
+.bs-control:has(> .bs-input[aria-invalid="true"]) {
+  border-color: var(--bs-error);
+  box-shadow: 0 0 0 3px var(--bs-ring-error);
+}
+
+.bs-control:has(> .bs-input[aria-invalid="true"]):focus-within {
+  box-shadow: 0 0 0 3px var(--bs-ring-error-focus);
+}
+
+.bs-control:has(> .bs-input:disabled) {
+  background: #191919;
+  border-color: #262626;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.bs-control__icon {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--bs-faint);
+  pointer-events: none;
+  transition: color var(--bs-t);
+}
+
+.bs-control:focus-within .bs-control__icon {
+  color: var(--bs-accent);
+}
+
+.bs-control:has(> .bs-input[aria-invalid="true"]) .bs-control__icon {
+  color: var(--bs-error);
+}
+
+.bs-control:has(> .bs-input:disabled) .bs-control__icon {
+  color: #5C5852;
+}
+
+.bs-input {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  padding: 0 14px 0 44px;
+  border-radius: inherit;
+  outline: none;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--bs-ink);
+  caret-color: var(--bs-accent);
+  text-overflow: ellipsis;
+  transition: color var(--bs-t);
+}
+
+.bs-input::placeholder {
+  color: var(--bs-faint);
+  opacity: 1;
+}
+
+.bs-input:disabled {
+  color: #6B665F;
+  cursor: not-allowed;
+}
+
+.bs-input:disabled::placeholder {
+  color: #5C5852;
+}
+
+/* Evita el fondo claro del autocompletado de Chromium. */
+.bs-input:-webkit-autofill {
+  -webkit-text-fill-color: var(--bs-ink);
+  -webkit-box-shadow: 0 0 0 1000px var(--bs-field) inset;
+  caret-color: var(--bs-accent);
+}
+
+.bs-control--toggle .bs-input {
+  padding-right: 48px;
+}
+
+/* Botón mostrar/ocultar contraseña. */
+.bs-toggle {
+  position: absolute;
+  right: 6px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--bs-faint);
+  transition: color var(--bs-t), background-color var(--bs-t);
+}
+
+.bs-toggle .bs-i {
+  width: 18px;
+  height: 18px;
+}
+
+.bs-toggle:hover:not(:disabled) {
+  color: var(--bs-ink);
+  background: rgba(244, 241, 234, 0.05);
+}
+
+.bs-toggle:focus-visible {
+  outline: 2px solid var(--bs-accent);
+  outline-offset: 0;
+}
+
+.bs-toggle:disabled {
+  color: #5C5852;
+  cursor: not-allowed;
+}
+
+.bs-toggle[aria-pressed="false"] .bs-toggle__hide,
+.bs-toggle[aria-pressed="true"] .bs-toggle__show {
+  display: none;
+}
+
+/* Mensaje de error bajo el campo. */
+.bs-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--bs-error);
+}
+
+.bs-field-error .bs-i {
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  stroke-width: 2;
+}
+
+/* ---------- Banner de error ---------- */
+
+.bs-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bs-error-bg);
+  border: 1px solid var(--bs-error-border);
+  border-radius: 8px;
+}
+
+.bs-banner > .bs-i {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--bs-error);
+  stroke-width: 2;
+}
+
+.bs-banner__title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--bs-ink);
+}
+
+.bs-banner__body {
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--bs-muted);
+}
+
+/* ---------- Casilla ---------- */
+
+.bs-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--bs-muted);
+  transition: color var(--bs-t);
+}
+
+.bs-check:hover {
+  color: var(--bs-ink);
+}
+
+.bs-check--top {
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.bs-check--top .bs-check__box {
+  margin-top: 0.5px;
+}
+
+/* Visualmente oculta pero enfocable y operable con teclado. */
+.bs-check__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.bs-check__box {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 5px;
+  background: var(--bs-field);
+  transition: background-color var(--bs-t), border-color var(--bs-t);
+}
+
+.bs-check__box .bs-i {
+  width: 12px;
+  height: 12px;
+  stroke-width: 3;
+  color: var(--bs-accent-ink);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity var(--bs-t), transform var(--bs-t);
+}
+
+.bs-check:hover .bs-check__box {
+  border-color: #55514B;
+}
+
+.bs-check__input:checked + .bs-check__box {
+  background: var(--bs-accent);
+  border-color: var(--bs-accent);
+}
+
+.bs-check__input:checked + .bs-check__box .bs-i {
+  opacity: 1;
+  transform: none;
+}
+
+.bs-check__input:focus-visible + .bs-check__box {
+  outline: 2px solid var(--bs-accent);
+  outline-offset: 2px;
+}
+
+.bs-check:has(> .bs-check__input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Enlaces ---------- */
+
+.bs-link {
+  font-weight: 500;
+  color: var(--bs-accent);
+  border-radius: 4px;
+  text-underline-offset: 3px;
+  transition: color var(--bs-t);
+}
+
+.bs-link:hover {
+  color: var(--bs-accent-hover);
+  text-decoration: underline;
+}
+
+.bs-link:focus-visible {
+  outline: 2px solid var(--bs-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Botón primario ---------- */
+
+.bs-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.02em;
+  user-select: none;
+  transition:
+    background-color var(--bs-t),
+    color var(--bs-t),
+    transform var(--bs-t),
+    box-shadow var(--bs-t),
+    opacity var(--bs-t);
+}
+
+.bs-btn-primary {
+  background: var(--bs-accent);
+  color: var(--bs-accent-ink);
+}
+
+.bs-btn__icon.bs-i {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  transition: transform var(--bs-t);
+}
+
+.bs-btn-primary:hover:not(:disabled):not([aria-busy="true"]) {
+  background: var(--bs-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(232, 163, 61, 0.22);
+}
+
+.bs-btn-primary:hover:not(:disabled):not([aria-busy="true"]) .bs-btn__icon {
+  transform: translateX(2px);
+}
+
+.bs-btn-primary:active:not(:disabled):not([aria-busy="true"]) {
+  background: var(--bs-accent-press);
+  transform: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.bs-btn-primary:focus-visible {
+  outline: 2px solid var(--bs-ink);
+  outline-offset: 3px;
+}
+
+.bs-btn-primary[aria-busy="true"] {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.bs-btn-primary[aria-busy="true"] .bs-btn__icon {
+  display: none;
+}
+
+.bs-btn-primary:disabled {
+  background: #77726B;
+  color: #2A2A2A;
+  cursor: not-allowed;
+}
+
+/* ---------- Footer ---------- */
+
+.bs-footer {
+  flex: none;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  border-top: 1px solid var(--bs-line);
+  background: rgba(18, 18, 18, 0.72);
+}
+
+.bs-version {
+  padding: 0 6px;
+  border: 1px solid var(--bs-line);
+  border-radius: 4px;
+  font-family: var(--bs-font-mono);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--bs-faint);
+}
+
+.bs-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--bs-muted);
+  transition: color var(--bs-t);
+}
+
+.bs-footer-link:hover {
+  color: var(--bs-ink);
+}
+
+.bs-footer-link:focus-visible {
+  outline: 2px solid var(--bs-accent);
+  outline-offset: 4px;
+}

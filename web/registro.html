@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Crear cuenta · BarberSpot</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="tailwind.config.js"></script>
+</head>
+<body>
+  <div class="bs-page">
+    <div class="bs-grid" aria-hidden="true"></div>
+    <div class="bs-stripe" aria-hidden="true"></div>
+
+    <main class="bs-main">
+      <div class="w-full flex flex-col items-center gap-6">
+
+        <!-- Marca -->
+        <div class="flex items-center gap-3">
+          <div class="bs-logo bs-logo--sm" aria-hidden="true">
+            <svg class="bs-i"><use href="#i-pole"/></svg>
+          </div>
+          <p class="font-display font-extrabold text-[32px] leading-8 tracking-[0.05em] uppercase text-bs-ink" aria-label="BarberSpot">
+            Barber<span class="text-bs-accent">Spot</span>
+          </p>
+        </div>
+
+        <!-- Tarjeta de registro -->
+        <section class="bs-card bs-card--registro" aria-labelledby="titulo-registro">
+          <div id="roles-registro" class="bs-roles" role="tablist" aria-label="Tipo de cuenta">
+            <button type="button" role="tab" id="rol-usuario" class="bs-role" data-rol="usuario"
+                    aria-selected="true" aria-controls="panel-registro"
+                    data-subtitulo="Regístrate para reservar citas y llevar tu historial en un solo lugar.">
+              <svg class="bs-i" aria-hidden="true"><use href="#i-user"/></svg>
+              <span>Usuario</span>
+            </button>
+            <button type="button" role="tab" id="rol-barbero" class="bs-role" data-rol="barbero"
+                    aria-selected="false" aria-controls="panel-registro" tabindex="-1"
+                    data-subtitulo="Regístrate para unirte al equipo y gestionar tu agenda de citas.">
+              <svg class="bs-i" aria-hidden="true"><use href="#i-scissors"/></svg>
+              <span>Barbero</span>
+            </button>
+            <button type="button" role="tab" id="rol-admin" class="bs-role" data-rol="admin"
+                    aria-selected="false" aria-controls="panel-registro" tabindex="-1"
+                    data-subtitulo="Regístrate para administrar tu barbería en BarberSpot.">
+              <svg class="bs-i" aria-hidden="true"><use href="#i-shield"/></svg>
+              <span>Admin</span>
+            </button>
+          </div>
+
+          <div id="panel-registro" role="tabpanel" aria-labelledby="rol-usuario" class="mt-6">
+            <h1 id="titulo-registro" class="font-display font-extrabold text-[34px] leading-9 tracking-[0.02em] uppercase text-bs-ink">
+              Crear cuenta
+            </h1>
+            <p id="subtitulo-registro" class="mt-2 text-[14px] leading-5 text-bs-muted [text-wrap:balance]">
+              Regístrate para reservar citas y llevar tu historial en un solo lugar.
+            </p>
+
+            <form id="form-registro" class="mt-6 flex flex-col gap-4" novalidate>
+              <div>
+                <label for="nombre" class="bs-label">Nombre completo</label>
+                <div class="bs-control">
+                  <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-user"/></svg>
+                  <input id="nombre" name="nombre" type="text" class="bs-input" placeholder="Ej. Juan Pérez"
+                         autocomplete="name" aria-invalid="false" aria-describedby="nombre-error">
+                </div>
+                <p id="nombre-error" class="bs-field-error" hidden>
+                  <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                </p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-[14px] items-start">
+                <div class="min-w-0">
+                  <label for="correo" class="bs-label">Correo electrónico</label>
+                  <div class="bs-control">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-mail"/></svg>
+                    <input id="correo" name="correo" type="email" class="bs-input" placeholder="correo@tubarberia.com"
+                           autocomplete="email" autocapitalize="off" spellcheck="false"
+                           aria-invalid="false" aria-describedby="correo-error">
+                  </div>
+                  <p id="correo-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+                <div class="min-w-0">
+                  <label for="telefono" class="bs-label">Teléfono</label>
+                  <div class="bs-control">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-phone"/></svg>
+                    <input id="telefono" name="telefono" type="tel" class="bs-input" placeholder="10 dígitos"
+                           autocomplete="tel-national" inputmode="numeric" maxlength="10"
+                           aria-invalid="false" aria-describedby="telefono-error">
+                  </div>
+                  <p id="telefono-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Solo Barbero -->
+              <div class="grid grid-cols-2 gap-[14px] items-start" data-solo-rol="barbero" hidden>
+                <div class="min-w-0">
+                  <label for="especialidad" class="bs-label">Especialidad</label>
+                  <div class="bs-control">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-scissors"/></svg>
+                    <input id="especialidad" name="especialidad" type="text" class="bs-input"
+                           placeholder="Ej. Degradados, clásicos"
+                           aria-invalid="false" aria-describedby="especialidad-error" disabled>
+                  </div>
+                  <p id="especialidad-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+                <div class="min-w-0">
+                  <label for="codigo-invitacion" class="bs-label">Código de invitación</label>
+                  <div class="bs-control">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-key"/></svg>
+                    <input id="codigo-invitacion" name="codigoInvitacion" type="text" class="bs-input"
+                           placeholder="Te lo da tu administrador" autocomplete="off" spellcheck="false"
+                           aria-invalid="false" aria-describedby="codigo-invitacion-error" disabled>
+                  </div>
+                  <p id="codigo-invitacion-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Solo Admin -->
+              <div class="grid grid-cols-2 gap-[14px] items-start" data-solo-rol="admin" hidden>
+                <div class="min-w-0">
+                  <label for="barberia" class="bs-label">Nombre de la barbería</label>
+                  <div class="bs-control">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-store"/></svg>
+                    <input id="barberia" name="barberia" type="text" class="bs-input"
+                           placeholder="Ej. Barbería El Corte" autocomplete="organization"
+                           aria-invalid="false" aria-describedby="barberia-error" disabled>
+                  </div>
+                  <p id="barberia-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+                <div class="min-w-0">
+                  <label for="codigo-admin" class="bs-label">Código de administrador</label>
+                  <div class="bs-control">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-key"/></svg>
+                    <input id="codigo-admin" name="codigoAdmin" type="text" class="bs-input"
+                           placeholder="Código de verificación" autocomplete="off" spellcheck="false"
+                           aria-invalid="false" aria-describedby="codigo-admin-error" disabled>
+                  </div>
+                  <p id="codigo-admin-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-[14px] items-start">
+                <div class="min-w-0">
+                  <label for="password" class="bs-label">Contraseña</label>
+                  <div class="bs-control bs-control--toggle">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-lock"/></svg>
+                    <input id="password" name="password" type="password" class="bs-input"
+                           placeholder="Mínimo 8 caracteres" autocomplete="new-password"
+                           aria-invalid="false" aria-describedby="password-error">
+                    <button type="button" class="bs-toggle" data-toggle-password aria-controls="password"
+                            aria-pressed="false" aria-label="Mostrar contraseña">
+                      <svg class="bs-i bs-toggle__show" aria-hidden="true"><use href="#i-eye"/></svg>
+                      <svg class="bs-i bs-toggle__hide" aria-hidden="true"><use href="#i-eye-off"/></svg>
+                    </button>
+                  </div>
+                  <p id="password-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+                <div class="min-w-0">
+                  <label for="password-confirmacion" class="bs-label">Confirmar contraseña</label>
+                  <div class="bs-control bs-control--toggle">
+                    <svg class="bs-i bs-control__icon" aria-hidden="true"><use href="#i-lock"/></svg>
+                    <input id="password-confirmacion" name="passwordConfirmacion" type="password" class="bs-input"
+                           placeholder="Repite tu contraseña" autocomplete="new-password"
+                           aria-invalid="false" aria-describedby="password-confirmacion-error">
+                    <button type="button" class="bs-toggle" data-toggle-password aria-controls="password-confirmacion"
+                            aria-pressed="false" aria-label="Mostrar confirmación de contraseña">
+                      <svg class="bs-i bs-toggle__show" aria-hidden="true"><use href="#i-eye"/></svg>
+                      <svg class="bs-i bs-toggle__hide" aria-hidden="true"><use href="#i-eye-off"/></svg>
+                    </button>
+                  </div>
+                  <p id="password-confirmacion-error" class="bs-field-error" hidden>
+                    <svg class="bs-i" aria-hidden="true"><use href="#i-alert"/></svg><span data-msg></span>
+                  </p>
+                </div>
+              </div>
+
+              <label class="bs-check bs-check--top" for="terminos">
+                <input id="terminos" name="terminos" type="checkbox" class="bs-check__input">
+                <span class="bs-check__box" aria-hidden="true">
+                  <svg class="bs-i"><use href="#i-check"/></svg>
+                </span>
+                <!-- TODO: destino real de términos y condiciones. -->
+                <span>Acepto los <a href="#" class="bs-link">términos y condiciones</a> de uso de BarberSpot.</span>
+              </label>
+
+              <button id="btn-registro" type="submit" class="bs-btn bs-btn-primary" disabled>
+                <span>Crear cuenta</span>
+                <svg class="bs-i bs-btn__icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+              </button>
+            </form>
+
+            <p class="mt-5 text-center text-[14px] leading-5 text-bs-muted">
+              ¿Ya tienes una cuenta? <a href="index.html" class="bs-link">Inicia sesión</a>
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bs-footer">
+      <div class="flex items-center gap-3">
+        <span class="font-display font-bold text-[16px] leading-5 tracking-[0.05em] uppercase text-bs-muted">BarberSpot</span>
+        <span class="bs-version">v1.0</span>
+      </div>
+      <!-- TODO: destino de soporte técnico. -->
+      <a href="#" class="bs-footer-link">
+        <svg class="bs-i" aria-hidden="true"><use href="#i-help"/></svg>
+        Soporte técnico
+      </a>
+    </footer>
+  </div>
+
+  <script src="js/ui.js"></script>
+  <script src="js/registro.js"></script>
+</body>
+</html>
